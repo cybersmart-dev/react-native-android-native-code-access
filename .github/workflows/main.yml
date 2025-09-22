@@ -1,47 +1,60 @@
-name: Android Gradle Build
+name: Android Release Build
 
 on:
+  workflow_dispatch: # run manually
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      JAVA_HOME: /usr/lib/jvm/temurin-17-jdk-amd64
+      ANDROID_SDK_ROOT: ${{ github.workspace }}/android-sdk
+      ANDROID_NDK_HOME: ${{ github.workspace }}/android-sdk/ndk/${{ env.ANDROID_NDK_VERSION }}
+      ANDROID_NDK_VERSION: 27.1.12297006
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18   # or 20 if supported
-          cache: 'npm'
+          node-version: 18
 
       - name: Install dependencies
-        run: npm ci   # or `npm install` if no package-lock.json
+        run: npm install
 
-      - name: Set up JDK
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Set up Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Grant execute permission for Gradlew
-        run: chmod +x android/gradlew
+      - name: Install SDK components
+        run: |
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "ndk;${ANDROID_NDK_VERSION}" "cmake;3.22.1"
 
-      - name: Build Debug APK
+      - name: Create local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > android/local.properties
+          echo "ndk.dir=$ANDROID_SDK_ROOT/ndk/${ANDROID_NDK_VERSION}" >> android/local.properties
+
+      - name: Bundle JS
+        run: npx expo export --platform android
+
+      - name: Build Release APK
         working-directory: android
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleRelease
 
-      - name: Upload APK artifact
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: app-release-apk
+          path: android/app/build/outputs/apk/release/app-release.apk
