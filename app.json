@@ -1,5 +1,6 @@
 {
   "expo": {
+    "jsEngine": "jsc",
     "name": "nativecode_access",
     "slug": "nativecode_access",
     "version": "1.0.0",
