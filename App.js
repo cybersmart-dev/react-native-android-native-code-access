@@ -1,3 +1,4 @@
+import React, { useRef, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
     StyleSheet,
@@ -7,13 +8,24 @@ import {
     Dimensions,
     Button,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ToastAndroid
 } from "react-native";
 //import { NativeModules } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
 export default function App() {
+    const inputRef = useRef(null);
+    const [password, setPassword] = useState("");
+
+    const handleLogin = () => {
+        if (password != "smart") {
+            ToastAndroid.show("Login fail", ToastAndroid.LONG);
+            return;
+        }
+        ToastAndroid.show("Login Success", ToastAndroid.LONG);
+    };
     return (
         <View style={styles.container}>
             <View
@@ -40,22 +52,32 @@ export default function App() {
                     }}
                 >
                     <Text style={styles.title}>Welcome Back</Text>
-                    <Text style={{ textAlign: "center", color: '#f7bc28', }}>
+                    <Text style={{ textAlign: "center", color: "#f7bc28" }}>
                         Enter your password
                     </Text>
                 </View>
                 {/** <TextInput style={styles.input} placeholder="Username" /> **/}
-                <TextInput style={styles.inputps} placeholder="Password" />
-                
-                 <TouchableOpacity style={{ alignSelf: 'left', marginLeft: 15, marginTop:10}}>
-                  <Text style={{ color: 'black',}}>Forgot Password?</Text>
+                <TextInput
+                    onChangeText={text => setPassword(text)}
+                    ref={inputRef}
+                    style={styles.inputps}
+                    placeholder="Password"
+                />
+
+                <TouchableOpacity
+                    style={{ alignSelf: "left", marginLeft: 15, marginTop: 10 }}
+                >
+                    <Text style={{ color: "black" }}>Forgot Password?</Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity style={styles.button}>
-                  <Text style={{ color: 'white',}}>Login</Text>
+
+                <TouchableOpacity
+                    onPress={() => handleLogin()}
+                    style={styles.button}
+                >
+                    <Text style={{ color: "white" }}>Login</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ marginTop: 20,}}>
-                  <Text style={{ color: 'black',}}>Switch Account</Text>
+                <TouchableOpacity style={{ marginTop: 20 }}>
+                    <Text style={{ color: "black" }}>Switch Account</Text>
                 </TouchableOpacity>
             </View>
             <StatusBar style="auto" />
@@ -78,14 +100,14 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginBottom: 25,
         width: width - 30,
-        paddingLeft: 10,
+        paddingLeft: 10
     },
     inputps: {
         height: 50,
         borderColor: "#f7bc28",
         borderWidth: 1,
         borderRadius: 6,
-        
+
         paddingLeft: 10,
         width: width - 30
     },
@@ -96,17 +118,16 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 25,
         fontWeight: "bold",
-        color: '#f7bc28',
+        color: "#f7bc28"
     },
-    button:{
+    button: {
         height: 40,
-        width: width/1.5,
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: '#f7bc28',
-        justifyContent: 'center',
+        width: width / 1.5,
+        flexDirection: "column",
+        alignItems: "center",
+        backgroundColor: "#f7bc28",
+        justifyContent: "center",
         borderRadius: 6,
-        marginTop: 25,
-        
+        marginTop: 25
     }
 });

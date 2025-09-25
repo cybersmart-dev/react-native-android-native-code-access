@@ -1,37 +1,7 @@
 {
   "expo": {
-    "jsEngine": "jsc",
-    "name": "nativecode_access",
-    "slug": "nativecode_access",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.cybersmart83.nativecode-access"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "package": "com.cybersmart83.nativecode_access"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "81c3893d-6716-4652-9e30-bc75619a6871"
-      }
-    }
+    "name": "Native Code Access",
+    "slug": "nca",
+    "version": "1.0.0"
   }
 }
