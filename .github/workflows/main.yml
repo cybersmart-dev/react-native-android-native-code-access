@@ -37,17 +37,14 @@ jobs:
 
       - name: Grant execute permission for Gradlew
         run: chmod +x android/gradlew
-<<<<<<< HEAD
-        
+
       - name: Clean Gradle
         working-directory: android
         run: ./gradlew clean --stacktrace
         
       - name: Build Release APK
-=======
 
       - name: Build Signed Release APK
->>>>>>> 21fc428184c3367dd1fa27bdcc3a13c3c92e82ee
         working-directory: android
         env:
           ANDROID_KEYSTORE: release.keystore
